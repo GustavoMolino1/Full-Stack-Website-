@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 interface UserMenuProps{
 currentUser?: SafeUser | null;
 
+
 }
 
 
@@ -24,6 +25,7 @@ const UserMenu:React.FC<UserMenuProps>=({
 currentUser
 
 }) =>{
+  
 const router=useRouter();
   const OpenTrip=useOpenTripModal();
     const registerModal=useRegisterModal();
@@ -87,6 +89,7 @@ const router=useRouter();
                  <div className="hidden md:block">
 
                     <Avatar src ={currentUser?.image}/>
+                 
                  </div>
 
                 </div>
@@ -135,6 +138,7 @@ const router=useRouter();
                   label="Logout" 
                   onClick={() => {signOut()}}
                 />
+            
               </>
             ) : (
               <>

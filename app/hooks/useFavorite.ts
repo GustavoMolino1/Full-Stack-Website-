@@ -44,8 +44,12 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
       await request();
       router.refresh();
       toast.success(successMessage);
-    } catch (error) {
-      toast.error('Something went wrong.');
+    } catch (error: any) {
+      if (error.response && error.response.status === 400 && error.response.data.message === "You cannot Favorite your own trip.") {
+        toast.error("You cannot favorite your own trip");
+      } else {
+        toast.error("Something went wrong.");
+      }
     }
   }, 
   [

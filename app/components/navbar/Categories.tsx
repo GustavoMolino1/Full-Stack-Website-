@@ -16,12 +16,18 @@ import {
 import { FaSkiing } from 'react-icons/fa';
 import { BsSnow } from 'react-icons/bs';
 import { IoDiamond } from 'react-icons/io5';
-import { MdOutlineVilla } from 'react-icons/md';
-import { MdFastfood } from "react-icons/md";
+import { MdOutlineVilla,MdFastfood,MdOutlineHiking } from 'react-icons/md';
 import { FaPersonWalking } from "react-icons/fa6";
-import { GiThreeFriends } from "react-icons/gi";
+import { GiThreeFriends,GiSoccerBall,GiPoolTableCorner } from "react-icons/gi";
 import { TbKayak } from "react-icons/tb";
 import { BiParty } from "react-icons/bi";
+import { SiApplearcade } from "react-icons/si";
+
+
+
+
+
+
 
 
 
@@ -98,6 +104,25 @@ export const categories = [
     icon: BiParty,
     description: 'Club Trip!',
   },
+  {
+    label: 'Arcade',
+    icon: SiApplearcade,
+    description: 'Arcade Games!',
+  },
+  {
+    label: 'Soccer',
+    icon: GiSoccerBall,
+    description: 'Soccer Games!',
+  },
+  {
+    label: '8 -Pool',
+    icon: GiPoolTableCorner,
+    description: '8 Pool Games!',
+  },{
+    label: 'Trekking trips',
+    icon: MdOutlineHiking,
+    description: 'Trekking trips',
+  }
   
   
 ]

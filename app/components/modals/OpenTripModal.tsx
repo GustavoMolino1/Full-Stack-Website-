@@ -29,7 +29,7 @@ enum STEPS {
   INFO = 2,
   IMAGES = 3,
   DESCRIPTION = 4, // include Whatsapp Group link
-  PRICE = 5,
+  SUMMARY = 5,
 }
 
 
@@ -74,6 +74,9 @@ const OpenTripModal = () => {
   const city=watch('city');
   const dateOfTrip=watch('dateOfTrip')
   const hourOfTrip=watch('hourOfTrip');
+  const title=watch('title');
+  const price=watch('price');
+  const description=watch('description');
 
   
 
@@ -106,7 +109,7 @@ const OpenTripModal = () => {
     setStep((value) => value - 1);
   };
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (step !== STEPS.PRICE) {
+    if (step !== STEPS.SUMMARY) {
       return onNext();
     }
     
@@ -138,7 +141,7 @@ const OpenTripModal = () => {
       ssr: false 
     }), [location]);
 
-  const actionLabel = step === STEPS.PRICE ? 'Create' : 'Next';
+  const actionLabel = step === STEPS.SUMMARY ? 'Create' : 'Next';
 
   const secondaryActionLabel =  step === STEPS.CATEGORY ? undefined : 'Back';
   
@@ -251,10 +254,10 @@ const OpenTripModal = () => {
 
 <div className="flex items-center">
   <AiOutlineInfoCircle className="text-gray-400" />
-  <span className="text-gray-400">It is important to provide a proper Date to the trip. Otherwise the trip will not open.</span>
+  <span className="text-gray-400"><p>{"It is important to provide a proper Date to the trip. Otherwise the trip will not open."}</p></span>
   <br></br>
   <AiOutlineInfoCircle className="text-gray-400" />
-  <span className="text-gray-400">  It is important to provide a proper link to the trip's WhatsApp group.  Otherwise the trip will not open.</span>
+  <span className="text-gray-400"> <p>{" It is important to provide a proper link to the trip's WhatsApp group.  Otherwise the trip will not open."}</p></span>
  </div>
    
 
@@ -303,15 +306,10 @@ const OpenTripModal = () => {
           errors={errors}
           required
         />
-      </div>
-    )
-  }
-  if (step === STEPS.PRICE) {
-    bodyContent = (
-      <div className="flex flex-col gap-8">
+         <div className="flex flex-col gap-8">
         <Heading
           title="Now, set your price"
-          subtitle="How much do you charge per night?"
+          subtitle="How much do you charge?"
         />
         <Input
           id="price"
@@ -324,6 +322,65 @@ const OpenTripModal = () => {
           required
         />
       </div>
+      </div>
+      
+    )
+  }
+  //due to a bag. this section use for summary. 
+  if (step === STEPS.SUMMARY) {
+    bodyContent = (
+     <div>
+     <h2 className="text-2xl font-bold mb-4">Before your trip starts, pay attention to the following details:</h2>
+  <p className="flex flex-col gap-4">
+    Your trip will open immediately, but if the trip does not comply with the site rules, an administrator will remove your trip.
+  </p>
+     <br></br>
+     <div className="flex flex-col gap-4">
+     <div className="flex items-center">
+  <span className="font-bold mr-2">Location:</span>
+  <span>{location.label}</span>
+</div>
+
+  <div className="flex items-center">
+    <span className="font-bold mr-2">Category:</span>
+    <span>{category}</span>
+  </div>
+  <div className="flex items-center">
+    <span className="font-bold mr-2">Max Tourist Number:</span>
+    <span>{MaxTouristNum}</span>
+  </div>
+  <div className="flex items-center">
+    <span className="font-bold mr-2">WhatsApp Link:</span>
+    <span>{whatsAppLink}</span>
+  </div>
+  <div className="flex items-center">
+    <span className="font-bold mr-2">City:</span>
+    <span>{city}</span>
+  </div>
+  <div className="flex items-center">
+    <span className="font-bold mr-2">Date of Trip:</span>
+    <span>{dateOfTrip}</span>
+  </div>
+  <div className="flex items-center">
+    <span className="font-bold mr-2">Hour of Trip:</span>
+    <span>{hourOfTrip}</span>
+  </div>
+  <div className="flex items-center">
+    <span className="font-bold mr-2">Title:</span>
+    <span>{title}</span>
+  </div>
+  <div className="flex items-center">
+    <span className="font-bold mr-2">Description:</span>
+    <span>{description}</span>
+  </div>
+  <div className="flex items-center">
+    <span className="font-bold mr-2">Price:</span>
+    <span>{price}</span>
+  </div>
+</div>
+
+
+     </div>
     )
   }
 

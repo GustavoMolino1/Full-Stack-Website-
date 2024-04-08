@@ -63,15 +63,16 @@ export async function POST(request: Request) {
   }
 
   // Check if the WhatsApp link is in the correct format
-  const whatsappRegex = /^https?:\/\/chat\.whatsapp\.com\/[a-zA-Z0-9]+$/;
+ /* const whatsappRegex = /^https?:\/\/chat\.whatsapp\.com\/[a-zA-Z0-9]+$/;
   if (!whatsappRegex.test(whatsAppLink)) {
     return new NextResponse(JSON.stringify({ message: "The WhatsApp link is not in the correct format." }), { status: 400 });
-  }
+  }*/
 
   // Check if title contains only letters
-  if (!/^[a-zA-Z\s]+$/.test(title)) {
+  if (!/^[a-zA-Z\u0590-\u05FF\s]+$/.test(title)) {
     return new NextResponse(JSON.stringify({ message: "Title must contain only letters." }), { status: 400 });
   }
+  
 
   // Check if description has more than 10 words
   const wordCount = description.split(/\s+/).filter(Boolean).length;

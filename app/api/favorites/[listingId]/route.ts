@@ -31,11 +31,13 @@ export async function POST(
     }
   });
 
-  // Can add this.
+  // Can add this. 
   // Check if the listing exists and if its userId matches the current user's id
   if (!listing || listing.userId === currentUser.id) {
     return new NextResponse(JSON.stringify({ message: 'You cannot Favorite your own trip.' }), { status: 400 });
   }
+  console.log(JSON.stringify({ message: 'You cannot Favorite your own trip.' }))
+
 
   let favoriteIds = [...(currentUser.favoriteIds || [])];
 

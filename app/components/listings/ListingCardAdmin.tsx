@@ -154,13 +154,13 @@ interface ListingCardProps {
 {onAction && (
   <div style={{ marginTop: "10px" }}>
     {((isTripDatePast) || (isTripHourPast && isTodayDate)) ? (
-      <p>{'Trip is over, You cant remove Traveler Anymore'}</p>
+      <p>{'Trip is over'}</p>
     ) : null}
     
     {((isTripDatePast) || (isTripHourPast && isTodayDate)) ? (
       <Button
         small
-        label="Delete From dataBase"
+        label="Delete Trip From dataBase"
         onClick={handleCancel}
       />
     ) : (

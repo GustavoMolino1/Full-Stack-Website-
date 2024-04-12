@@ -66,6 +66,7 @@ interface ListingCardProps {
   
     const tripDateTime = parse(`${data.dateOfTrip} ${data.hourOfTrip}`, 'dd/MM/yyyy HH:mm', new Date());
     const isFutureTrip = isAfter(tripDateTime, new Date());
+    
   
     if (!isFutureTrip) {
       return null; // Don't render the component if the trip has already passed
@@ -81,8 +82,8 @@ interface ListingCardProps {
     }
   
     return (
-    
-      data.MaxTouristNum-data.countOfPeople!=0?(
+      
+      (data.MaxTouristNum-data.countOfPeople!=0)||(isFutureTrip)?(
       <div 
       
         onClick={() => router.push(`/listings/${data.id}`)} 

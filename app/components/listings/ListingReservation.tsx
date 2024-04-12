@@ -12,6 +12,8 @@ import { IoTime } from "react-icons/io5";
 
 import { FaShekelSign } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
+import { parse } from "date-fns";
+import { format } from "date-fns";
 
 
 interface ListingReservationProps {
@@ -34,12 +36,24 @@ const ListingReservation: React.FC<
   HourOfTrip
 
 }) => {
+
   const currentDate = new Date();
-  const tripDate = new Date(dateOfTrip);
+  const tripDate = parse(dateOfTrip, 'dd/MM/yyyy', new Date());
   const isToday = currentDate.toDateString() === tripDate.toDateString();
   const isTripPassed = tripDate < currentDate;
-  const isTripHourPassed = isToday && tripDate.getHours() < currentDate.getHours();
-  
+
+  // Parse and format the trip hour and minute
+  const tripHour = parseInt(format(parse(HourOfTrip, 'HH:mm', new Date()), 'HH'), 10);
+  const tripMinute = parseInt(format(parse(HourOfTrip, 'HH:mm', new Date()), 'mm'), 10);
+  const currentHour = currentDate.getHours();
+  const currentMinute = currentDate.getMinutes();
+
+  // Check if the trip hour and minute have passed
+  const isTripTimePassed = isToday && (
+    tripHour < currentHour || 
+    (tripHour === currentHour && tripMinute <= currentMinute)
+  );
+
   return (  
   
   
@@ -105,8 +119,8 @@ const ListingReservation: React.FC<
       <hr />
       <div className="p-4">
   <Button 
-    disabled={isTripHourPassed||isTripPassed} 
-    label={isTripHourPassed || isTripPassed ? "Trip already passed" : "Join To the Trip!"} 
+    disabled={(isTripTimePassed && isTripPassed)} 
+    label={isTripTimePassed && isTripPassed ? "Trip already passed" : "Join To the Trip!"} 
     onClick={onSubmit}
   />
 </div>

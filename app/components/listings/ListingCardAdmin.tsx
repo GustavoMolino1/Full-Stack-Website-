@@ -167,7 +167,7 @@ interface ListingCardProps {
       <Button
         disabled={disabled}
         small
-        label="Delete a Trip"
+        label="Delete Trip"
         onClick={handleCancel}
       />
     )}

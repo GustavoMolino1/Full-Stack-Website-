@@ -69,15 +69,15 @@ export async function POST(request: Request) {
   }*/
 
   // Check if title contains only letters
-  if (!/^[a-zA-Z\u0590-\u05FF\s]+$/.test(title)) {
-    return new NextResponse(JSON.stringify({ message: "Title must contain only letters." }), { status: 400 });
+  if (!/^[a-zA-Z\u0590-\u05FF\s!#%,'".\s]+$/.test(title)) {
+    return new NextResponse(JSON.stringify({ message: "Title must contain only letters, spaces, and special characters: ! # % , . ' \" " }), { status: 400 });
   }
   
 
   // Check if description has more than 10 words
   const wordCount = description.split(/\s+/).filter(Boolean).length;
-  if (wordCount < 10) {
-    return new NextResponse(JSON.stringify({ message: "Description must have at least 10 words." }), { status: 400 });
+  if (wordCount < 5) {
+    return new NextResponse(JSON.stringify({ message: "Description must have at least 5 words." }), { status: 400 });
   }
 
   // Check if dateOfTrip is valid and in the future, and within one month from now

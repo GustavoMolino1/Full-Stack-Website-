@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { toast } from "react-hot-toast";
 
+
 import { SafeUser } from "@/app/types";
 
 import useLoginModal from "./useLoginModal";
@@ -29,6 +30,7 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
     if (!currentUser) {
       return loginModal.onOpen();
     }
+   
 
     try {
       let request;
@@ -49,6 +51,7 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
         toast.error("You cannot favorite your own trip");
       } else {
         toast.error("Something went wrong.");
+        
       }
     }
   }, 

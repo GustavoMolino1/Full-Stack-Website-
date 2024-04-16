@@ -135,15 +135,17 @@ const ListingCard: React.FC<ListingCardProps> = ({
                 </div>
 
                 {onAction && (
-                    <div style={{ marginTop: "10px" }}>
+                    <div   onClick={() => router.push('/adminPannel')} style={{ marginTop: "10px" }}>
                         {((isTripDatePast) || (isTripHourPast && isTodayDate)) ? (
-                            <p>{'Trip is over, You cant remove Traveler Anymore, but you Can delete the trip from the panel'}</p>
+                            <p>{'Trip is over, You cant remove Traveler Anymore, but you Can delete the trip from the panel, Click here to move to the other Pannel'}</p>
+                           
                         ) : <Button
                                 small
                                 label="Delete Travel From that trip"
                                 onClick={handleCancel}
                             />
                         }
+
 
                     </div>
                 )}

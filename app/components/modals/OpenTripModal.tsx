@@ -171,6 +171,7 @@ const OpenTripModal = () => {
               selected={category == item.label}
               label={item.label}
               icon={item.icon}
+              
             />
           </div>
         ))}
@@ -271,7 +272,7 @@ const OpenTripModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Add a photo of the Location of the Trip"
+          title="Add a photo of the Location of the Trip Picture must be 550X780 for better Quality."
           subtitle="Show Travels what they will see in your Trip! "
         />
         <ImageUpload
@@ -346,7 +347,7 @@ const OpenTripModal = () => {
     <span>{category}</span>
   </div>
   <div className="flex items-center">
-    <span className="font-bold mr-2">Max Tourist Number:</span>
+    <span className="font-bold mr-2">Max Travelers Number:</span>
     <span>{MaxTouristNum}</span>
   </div>
   <div className="flex items-center">

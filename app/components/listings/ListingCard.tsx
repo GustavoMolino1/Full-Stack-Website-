@@ -67,7 +67,7 @@ interface ListingCardProps {
     const tripDateTime = parse(`${data.dateOfTrip} ${data.hourOfTrip}`, 'dd/MM/yyyy HH:mm', new Date());
     const isFutureTrip = isAfter(tripDateTime, new Date());
     
-  
+    
     if (!isFutureTrip) {
       return null; // Don't render the component if the trip has already passed
     }
@@ -82,86 +82,77 @@ interface ListingCardProps {
     }
   
     return (
-      
-      (data.MaxTouristNum-data.countOfPeople!=0)||(isFutureTrip)?(
-      <div 
-      
-        onClick={() => router.push(`/listings/${data.id}`)} 
-        className="col-span-1 cursor-pointer group"
-      >
-        <div className="flex flex-col gap-2 w-full">
+      isFutureTrip ? (
+        (data.MaxTouristNum - data.countOfPeople !== 0) ? (
           <div 
-          
-            className="
-              aspect-square 
-              w-full 
-              relative 
-              overflow-hidden 
-              rounded-xl
-            "
+            onClick={() => router.push(`/listings/${data.id}`)} 
+            className="col-span-1 cursor-pointer group"
           >
-            <Image
-              fill
-              className="
-                object-cover 
-                h-full 
-                w-full 
-                group-hover:scale-110 
-                transition
-              "
-              src={data.imageSrc}
-              alt="Listing"
-            />
-            <div className="
-              absolute
-              top-3
-              right-3
-            ">
+            <div className="flex flex-col gap-2 w-full">
+              <div 
+                className="
+                  aspect-square 
+                  w-full 
+                  relative 
+                  overflow-hidden 
+                  rounded-xl
+                "
+              >
+                <Image
+                  fill
+                  className="
+                    object-cover 
+                    h-full 
+                    w-full 
+                    group-hover:scale-110 
+                    transition
+                  "
+                  src={data.imageSrc}
+                  alt="Listing"
+                />
+                <div className="
+                  absolute
+                  top-3
+                  right-3
+                ">
                   <HeartButton 
-              listingId={data.id} 
-              currentUser={currentUser}
-            />
-             
+                    listingId={data.id} 
+                    currentUser={currentUser}
+                  />
+                </div>
+              </div>
+              <div className="flex items-center">
+                <div className="font-semibold text-lg">{location?.label}</div>
+                <div className="border-l border-neutral-500 mx-2 h-6"></div> 
+                <div className="font-semibold text-lg">{data.city}</div>
+              </div>
+              <div className=" flex items-center">
+                <div className="font-semibold text-lg">Trip at Date: {data.dateOfTrip}</div>
+              </div>
+              <div className="font-semibold text-lg">Trip Hour: {data.hourOfTrip}</div>
+              <div className="font-light text-neutral-500">
+                { data.category}
+              </div>
+              <div className="font-light text-neutral-500">
+                Remaining places:  {data.MaxTouristNum - data.countOfPeople}
+              </div>
+              <div className="flex flex-row items-center gap-1">
+                <div className="font-semibold">
+                  {price === 0 ? "Free Trip" : `Total ₪ ${price}`}
+                </div>
+              </div>
+              {onAction && actionLabel && (
+                <Button
+                  disabled={disabled}
+                  small
+                  label={actionLabel} 
+                  onClick={handleCancel}
+                />
+              )}
             </div>
           </div>
-          <div className="flex items-center">
-  <div className="font-semibold text-lg">{location?.label}</div>
-  <div className="border-l border-neutral-500 mx-2 h-6"></div> 
-  <div className="font-semibold text-lg">{data.city}</div>
-
-</div>
-<div className=" flex items-center">
-<div className="font-semibold text-lg">Trip at Date: {data.dateOfTrip}</div>
-
-</div>
-<div className="font-semibold text-lg">Trip Hour: {data.hourOfTrip}</div>
-          
-          <div className="font-light text-neutral-500">
-            { data.category}
-          </div>
-          <div className="font-light text-neutral-500">
-          Remaining places:  {data.MaxTouristNum-data.countOfPeople}
-          </div>
-         
-          <div className="flex flex-row items-center gap-1">
- 
-  <div className="font-semibold">
-    {price === 0 ? "Free Trip" : `Total ₪ ${price}`}
-   
-  </div>
-</div>
-          
-          {onAction && actionLabel && (
-            <Button
-              disabled={disabled}
-              small
-              label={actionLabel} 
-              onClick={handleCancel}
-            />
-          )}
-        </div>
-      </div>
-     ):null);
-  }
-   
+        ) : null
+      ) : null
+    );
+  }    
   export default ListingCard;

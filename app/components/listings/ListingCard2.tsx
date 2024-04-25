@@ -22,6 +22,7 @@ interface ListingCardProps {
     actionLabel?: string;
     actionId?: string;
     currentUser?: SafeUser | null;
+  
    
   };
 
@@ -75,7 +76,7 @@ interface ListingCardProps {
     
   
     return (
-      data.MaxTouristNum-data.countOfPeople!=0?(
+     
       <div 
         onClick={() => router.push(`/listings/${data.id}`)} 
         className="col-span-1 cursor-pointer group"
@@ -166,12 +167,13 @@ interface ListingCardProps {
     label="Cancel Trip"
     onClick={handleCancel}
   />
+  
 )}
   </div>
 )}
         </div>
       </div>
-     ):null);
+    );
   }
    
   export default ListingCard;

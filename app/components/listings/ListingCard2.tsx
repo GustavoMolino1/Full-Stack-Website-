@@ -22,6 +22,7 @@ interface ListingCardProps {
     actionLabel?: string;
     actionId?: string;
     currentUser?: SafeUser | null;
+    
   
    
   };
@@ -138,9 +139,7 @@ interface ListingCardProps {
   <div className="font-semibold">
     {price === 0 ? "Free Trip" : `Total ₪ ${price}`}
     <hr/>
-    <a href={data.whatsAppLink} target="_blank" rel="noopener noreferrer">
-    Click  to enter the WhatsApp group of the trip
-        </a>
+    
   </div>
  
 </div>

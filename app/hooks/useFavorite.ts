@@ -1,3 +1,10 @@
+/*useFavorite is a custom hook that takes listingId and currentUser as parameters.
+It initializes variables such as router and loginModal.
+It calculates hasFavorited using useMemo, which checks if the listingId is included in the favoriteIds array of the currentUser.
+The toggleFavorite function is defined using useCallback, handling the logic for toggling the favorite status of the item.
+Inside toggleFavorite, it first checks if the user is logged in (currentUser).
+Depending on whether the item is already favorited (hasFavorited), it constructs the appropriate request (axios.post or axios.delete) to the backend API and displays a success message using toast.
+It also handles errors, such as when the user tries to favorite their own trip or when there's a general error during the request. */
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";

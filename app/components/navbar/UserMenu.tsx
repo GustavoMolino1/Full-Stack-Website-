@@ -147,6 +147,14 @@ const router=useRouter();
                   />
                 ):(null)
                 }
+                {currentUser.IsAdmin ? ( <MenuItem 
+                  label="Admin - All Users" 
+                  onClick={() => router.push('/adminPannel/UserForAdmin')}
+                  />
+                ):(null)
+                }
+                
+            
                 <hr />
                 <MenuItem 
                   label="Logout" 

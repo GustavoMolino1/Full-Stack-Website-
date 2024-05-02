@@ -8,6 +8,7 @@ import { SafeUser } from "@/app/types";
 
 import Avatar from "../Avatar";
 import ListingCategory from "./ListingCategory";
+import { useEffect, useState } from "react";
 
 const Map = dynamic(() => import('../modals/Map'), { 
   ssr: false 
@@ -16,6 +17,7 @@ const Map = dynamic(() => import('../modals/Map'), {
 interface ListingInfoProps {
   user: SafeUser,
   description: string;
+  city:string;
   MaxTouristNum: number;
   countOfPeople:number;
   category: {
@@ -29,7 +31,7 @@ interface ListingInfoProps {
 const ListingInfo: React.FC<ListingInfoProps> = ({
   user,
   description,
-         
+       city,  
   MaxTouristNum,
   countOfPeople,
   category,
@@ -37,7 +39,29 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
 }) => {
   const { getByValue } = useCountries();
 
-  const coordinates = getByValue(locationValue)?.latlng
+  const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
+  useEffect(() => {
+    const fetchCoordinates = async () => {
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`
+        );
+        const data = await response.json();
+        if (data.length > 0) {
+          const { lat, lon } = data[0];
+          setCoordinates([parseFloat(lat), parseFloat(lon)]);
+        } else {
+          // If coordinates are not found, set to Israel coordinates
+          setCoordinates([31.0461, 34.8516]); // Coordinates for Israel
+        }
+      } catch (error) {
+        console.error("Error fetching coordinates:", error);
+      }
+    };
+
+    fetchCoordinates();
+  }, [city]);
+  const mapCenter = coordinates || [31.0461, 34.8516];
 
   return ( 
     <div className="col-span-4 flex flex-col gap-8">
@@ -67,6 +91,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
           <div>
           Maximum number of travelers in the trip: {MaxTouristNum}
           </div>
+         
           <div>
           Number of travelers registered: {countOfPeople}
           </div>
@@ -81,15 +106,26 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
           description={category?.description} 
         />
       )}
+      
       <hr />
       <div className="
       text-lg font-light text-neutral-500">
         {description}
       </div>
       <hr />
-      <Map center={coordinates} />
+      {coordinates && <Map center={mapCenter} />}
+      <div className="col-span-4 flex flex-col gap-8">
+  
+
+</div>
     </div>
    );
 }
  
 export default ListingInfo;
+
+
+
+
+
+

@@ -4,10 +4,9 @@ import ClientOnly from "@/app/components/ClientOnly";
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getListings from "@/app/actions/getListings";
+import getAllUsers from "@/app/actions/getAllUsers";
+import UsersList from "./UsersList";
 
-import PropertiesClient from "./TotalTripsAdmin";
-import getAllListings from "../actions/getAllListings";
-import getAllUsers from "../actions/getAllUsers";
 
 
 
@@ -18,22 +17,21 @@ const PropertiesPage = async () => {
     return <EmptyState
       title="Unauthorized Error"
       subtitle="Please login"
-      
     />
   }
 
  if(currentUser.IsAdmin)
   {
    
-  const listings = await getAllListings({});
+
+   const users = await getAllUsers();
    
-   
-  if (listings.length === 0) {
+  if (users.length === 0) {
     return (
       <ClientOnly>
         <EmptyState
-          title="No Trips found"
-          subtitle="Looks like you have no Trips."
+          title="No User found"
+          subtitle="Looks like you have no Users."
         />
       </ClientOnly>
     );
@@ -41,10 +39,10 @@ const PropertiesPage = async () => {
   else{
     return (
       <ClientOnly>
-        <PropertiesClient
-          listings={listings}
-          currentUser={currentUser}
-        />
+      <UsersList
+      users={users}/>
+      
+       
       </ClientOnly>
     );
   }

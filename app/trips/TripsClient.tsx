@@ -11,6 +11,7 @@ import Heading from "@/app/components/Heading";
 import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
 import ListingCard2 from "../components/listings/ListingCard2";
+import ListingCardFutureTrips from "../components/listings/ListingCardFutureTrips";
 
 
 
@@ -66,7 +67,7 @@ const TripsClient: React.FC<TripsClientProps> = ({
         "
       >
         {reservations.map((reservation: any) => (
-          <ListingCard2
+          <ListingCardFutureTrips
             key={reservation.id}
             data={reservation.listing}
             reservation={reservation}

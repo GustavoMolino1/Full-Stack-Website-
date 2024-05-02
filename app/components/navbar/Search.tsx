@@ -31,10 +31,6 @@ const Search=()=>{
       }, [dateOfTrip]);
     
 
-
-
-
-    
     return(
       
         

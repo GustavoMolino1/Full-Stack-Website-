@@ -55,7 +55,7 @@ const OpenTripModal = () => {
       location: null,
       maxTravelNum: 30,
       imageSrc: '',
-      price: 0,
+      price:0,
       title: '',
       description: '',
       whatsAppLink:'',
@@ -183,24 +183,28 @@ const OpenTripModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
-          title="Where is your place located?"
-          subtitle="Help guests find you!"
+          title="Where is your Trip take place?"
+        
         />
+        <b>Enter the country, at the moment the website support is only for Israel.</b>
         <CountrySelect 
+        
           value={location} 
           onChange={(value) => setCustomValue('location', value)}
           
            
         />
+        <b>Enter the exact address of the Trip.</b>
          <Input
           id="city"
-          label="the city of the trip"
+          label=""
           disabled={isLoading}
           register={register}
           errors={errors}
           required
         />
-        <Map center={location?.latlng} />
+      
+      {/* <Map center={location?.latlng} />*/}
       </div>
     );
   }
@@ -383,6 +387,7 @@ const OpenTripModal = () => {
 
      </div>
     )
+    
   }
 
   

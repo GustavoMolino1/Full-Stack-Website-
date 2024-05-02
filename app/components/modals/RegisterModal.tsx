@@ -156,13 +156,15 @@ const bodyContent = (
         outline 
         label="Continue with Google"
         icon={FcGoogle}
-        onClick={() => signIn('google')} 
+        onClick={() => signIn('google')}
+        disabled 
       />
       <Button 
         outline 
         label="Continue with Github"
         icon={AiFillGithub}
         onClick={() => signIn('github')}
+        disabled
       />
       <div 
         className="

@@ -48,18 +48,32 @@ export async function POST(request: Request) {
   } = body;
 
   // Check if any required field is missing
-  for (const key of ['title', 'description', 'category', 'MaxTouristNum', 'whatsAppLink', 'location', 'city', 'price']) {
+  
+  for (const key of ['title', 'description', 'category', 'MaxTouristNum', 'whatsAppLink', 'location', 'city']) {
     if (!body[key]) {
       return new NextResponse(JSON.stringify({ message: `Missing required field: ${key}` }), { status: 400 });
     }
   }
+  if (body['price'] < 0) {
+    return new NextResponse(JSON.stringify({ message: "Price must be provided and should be a positive number" }), { status: 400 });
+  }
   if (!isValidHour(hourOfTrip)) {
     return new NextResponse(JSON.stringify({ message: "Invalid hour format. Please use HH:MM in 24-hour format." }), { status: 400 });
   }
+  if (parseInt(MaxTouristNum, 10) > 30) {
+    return new NextResponse(JSON.stringify({ message: "MaxTouristNum cannot be more than 30." }), { status: 400 });
+  }
+ 
 
   // Check if imageSrc is provided
   if (!body['imageSrc']) {
     return new NextResponse(JSON.stringify({ message: "At least one picture must be uploaded." }), { status: 400 });
+  }
+  if (location.value !== 'IL') {
+    return new NextResponse(JSON.stringify({ message: "The site currently only supports trips *In* Israel." }), { status: 400 });
+  }
+  if (parseInt(price, 10) >= 1000) {
+    return new NextResponse(JSON.stringify({ message: "The maximum price for the trip is up to 1000 NIS." }), { status: 400 });
   }
 
   // Check if the WhatsApp link is in the correct format

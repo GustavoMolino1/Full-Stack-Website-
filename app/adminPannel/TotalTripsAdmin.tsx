@@ -5,46 +5,48 @@ import axios from "axios";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { SafeReservation, SafeUser } from "@/app/types"
-;
+import { SafeListing, SafeUser } from "@/app/types";
+
 import Heading from "@/app/components/Heading";
 import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
-import ListingCard3 from "../components/listings/ListingCard3";
+import ListingCard2 from "../components/listings/ListingCard2";
+import ListingCardAdmin from "../components/listings/ListingCardAdmin";
 
-interface ReservationsClientProps {
-  reservations: SafeReservation[],
+interface PropertiesClientProps {
+  listings: SafeListing[],
   currentUser?: SafeUser | null,
 }
 
-const ReservationsClient: React.FC<ReservationsClientProps> = ({
-  reservations,
+const PropertiesClient: React.FC<PropertiesClientProps> = ({
+  listings,
   currentUser
 }) => {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState('');
-
-  const onCancel = useCallback((id: string) => {
+  
+  const onDelete = useCallback((id: string) => {
     setDeletingId(id);
 
-    axios.delete(`/api/reservations/${id}`)
+    axios.delete(`/api/admin/${id}`)
     .then(() => {
-      toast.success('Reservation cancelled');
+      toast.success('Trip deleted');
       router.refresh();
     })
-    .catch(() => {
-      toast.error('Something went wrong.')
+    .catch((error) => {
+      toast.error(error?.response?.data?.error)
     })
     .finally(() => {
       setDeletingId('');
     })
   }, [router]);
 
-  return (
+
+  return ( 
     <Container>
       <Heading
-        title="Reservations"
-        subtitle="Bookings on your Trips"
+        title="Welcome Admin, Here you can delete Future  & past Trips from our dataBase. "
+        subtitle="List of All the Trips"
       />
       <div 
         className="
@@ -59,15 +61,14 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
           gap-8
         "
       >
-        {reservations.map((reservation: any) => (
-          <ListingCard3
-            key={reservation.id}
-            data={reservation.listing}
-            reservation={reservation}
-            actionId={reservation.id}
-            onAction={onCancel}
-            disabled={deletingId === reservation.id}
-            actionLabel="Cancel guest reservation"
+        {listings.map((listing: any) => (
+          <ListingCardAdmin
+            key={listing.id}
+            data={listing}
+            actionId={listing.id}
+            onAction={onDelete}
+            disabled={deletingId === listing.id}
+            actionLabel="Delete Trip"
             currentUser={currentUser}
           />
         ))}
@@ -76,4 +77,4 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
    );
 }
  
-export default ReservationsClient;
+export default PropertiesClient;

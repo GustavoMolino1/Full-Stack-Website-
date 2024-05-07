@@ -48,35 +48,50 @@ export async function POST(request: Request) {
   } = body;
 
   // Check if any required field is missing
-  for (const key of ['title', 'description', 'category', 'MaxTouristNum', 'whatsAppLink', 'location', 'city', 'price']) {
+  
+  for (const key of ['title', 'description', 'category', 'MaxTouristNum', 'whatsAppLink', 'location', 'city']) {
     if (!body[key]) {
       return new NextResponse(JSON.stringify({ message: `Missing required field: ${key}` }), { status: 400 });
     }
   }
+  if (body['price'] < 0) {
+    return new NextResponse(JSON.stringify({ message: "Price must be provided and should be a positive number" }), { status: 400 });
+  }
   if (!isValidHour(hourOfTrip)) {
     return new NextResponse(JSON.stringify({ message: "Invalid hour format. Please use HH:MM in 24-hour format." }), { status: 400 });
   }
+  if (parseInt(MaxTouristNum, 10) > 30) {
+    return new NextResponse(JSON.stringify({ message: "MaxTouristNum cannot be more than 30." }), { status: 400 });
+  }
+ 
 
   // Check if imageSrc is provided
   if (!body['imageSrc']) {
     return new NextResponse(JSON.stringify({ message: "At least one picture must be uploaded." }), { status: 400 });
   }
+  if (location.value !== 'IL') {
+    return new NextResponse(JSON.stringify({ message: "The site currently only supports trips *In* Israel." }), { status: 400 });
+  }
+  if (parseInt(price, 10) >= 1000) {
+    return new NextResponse(JSON.stringify({ message: "The maximum price for the trip is up to 1000 NIS." }), { status: 400 });
+  }
 
   // Check if the WhatsApp link is in the correct format
-  const whatsappRegex = /^https?:\/\/chat\.whatsapp\.com\/[a-zA-Z0-9]+$/;
+ /* const whatsappRegex = /^https?:\/\/chat\.whatsapp\.com\/[a-zA-Z0-9]+$/;
   if (!whatsappRegex.test(whatsAppLink)) {
     return new NextResponse(JSON.stringify({ message: "The WhatsApp link is not in the correct format." }), { status: 400 });
-  }
+  }*/
 
   // Check if title contains only letters
-  if (!/^[a-zA-Z\s]+$/.test(title)) {
-    return new NextResponse(JSON.stringify({ message: "Title must contain only letters." }), { status: 400 });
+  if (!/^[a-zA-Z\u0590-\u05FF\s!#%,'".\s]+$/.test(title)) {
+    return new NextResponse(JSON.stringify({ message: "Title must contain only letters, spaces, and special characters: ! # % , . ' \" " }), { status: 400 });
   }
+  
 
   // Check if description has more than 10 words
   const wordCount = description.split(/\s+/).filter(Boolean).length;
-  if (wordCount < 10) {
-    return new NextResponse(JSON.stringify({ message: "Description must have at least 10 words." }), { status: 400 });
+  if (wordCount < 5) {
+    return new NextResponse(JSON.stringify({ message: "Description must have at least 5 words." }), { status: 400 });
   }
 
   // Check if dateOfTrip is valid and in the future, and within one month from now

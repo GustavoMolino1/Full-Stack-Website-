@@ -67,6 +67,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
             primary25: '#ffe4e6'
           }
         })}
+        menuPlacement="auto"
       />
       {!isCountrySelected && <span className="text-red-500">Please select a country.</span>}
     </div>

@@ -4,41 +4,57 @@ import ClientOnly from "@/app/components/ClientOnly";
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getListings from "@/app/actions/getListings";
+import getAllUsers from "@/app/actions/getAllUsers";
+import UsersList from "./UsersList";
 
-import PropertiesClient from "./OwnTripClient";
-import getAllListings from "../actions/getAllListings";
+
+
 
 const PropertiesPage = async () => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
     return <EmptyState
-      title="Unauthorized"
+      title="Unauthorized Error"
       subtitle="Please login"
     />
   }
 
-  const listings = await getListings({ userId: currentUser.id });
-  //const listings = await getAllListings({});
-  if (listings.length === 0) {
+ if(currentUser.IsAdmin)
+  {
+   
+
+   const users = await getAllUsers();
+   
+  if (users.length === 0) {
     return (
       <ClientOnly>
         <EmptyState
-          title="No Trips found"
-          subtitle="Looks like you have no Trips."
+          title="No User found"
+          subtitle="Looks like you have no Users."
         />
       </ClientOnly>
     );
   }
+  else{
+    return (
+      <ClientOnly>
+      <UsersList
+      users={users}/>
+      
+       
+      </ClientOnly>
+    );
+  }
+}
+else{
+  return <EmptyState
+  title="Unauthorized Error"
+  
+/>
+}
 
-  return (
-    <ClientOnly>
-      <PropertiesClient
-        listings={listings}
-        currentUser={currentUser}
-      />
-    </ClientOnly>
-  );
+
 }
  
 export default PropertiesPage;

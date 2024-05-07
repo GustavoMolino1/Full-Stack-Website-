@@ -12,6 +12,8 @@ import { IoTime } from "react-icons/io5";
 
 import { FaShekelSign } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
+import { parse } from "date-fns";
+import { format } from "date-fns";
 
 
 interface ListingReservationProps {
@@ -34,18 +36,37 @@ const ListingReservation: React.FC<
   HourOfTrip
 
 }) => {
-  const currentDate = new Date();
-  const tripDate = new Date(dateOfTrip);
-  const isToday = currentDate.toDateString() === tripDate.toDateString();
-  const isTripPassed = tripDate < currentDate;
-  const isTripHourPassed = isToday && tripDate.getHours() < currentDate.getHours();
-  
+
+// Set current date to start of day
+const currentDate = new Date();
+currentDate.setHours(0, 0, 0, 0);
+
+// Parse trip date and set it to start of day
+const tripDate = parse(dateOfTrip, 'dd/MM/yyyy', new Date());
+tripDate.setHours(0, 0, 0, 0);
+
+// Check if the trip is today
+const isToday = currentDate.getTime() === tripDate.getTime();
+
+// Check if the trip date has passed
+const isTripPassed = tripDate.getTime() < currentDate.getTime();
+
+// Parse trip hour and minute
+const tripHour = parseInt(format(parse(HourOfTrip, 'HH:mm', new Date()), 'HH'), 10);
+const tripMinute = parseInt(format(parse(HourOfTrip, 'HH:mm', new Date()), 'mm'), 10);
+const currentHour = new Date().getHours();
+const currentMinute = currentDate.getMinutes();
+
+// Check if the trip time has passed
+const isTripTimePassed = isToday && (
+  tripHour < currentHour || 
+  (tripHour === currentHour && tripMinute <= currentMinute)
+);
+
+
+
   return (  
   
-  
-
-
-
     <div className="bg-white rounded-xl border-[1px] border-neutral-200 overflow-hidden">
       <div className="flex items-center">
   <IoIosInformationCircle className="text-black" style={{ fontSize: '24px' }} />
@@ -63,7 +84,7 @@ const ListingReservation: React.FC<
             {price} ₪
           </div>
           <div className="font-light text-neutral-600">
-            Per Person.
+          For participation
           </div>
         </>
       )}
@@ -105,8 +126,8 @@ const ListingReservation: React.FC<
       <hr />
       <div className="p-4">
   <Button 
-    disabled={isTripHourPassed||isTripPassed} 
-    label={isTripHourPassed || isTripPassed ? "Trip already passed" : "Join To the Trip!"} 
+    disabled={(isTripTimePassed || isTripPassed)} 
+    label={isTripTimePassed || isTripPassed ? "Trip already passed" : "Join To the Trip!"} 
     onClick={onSubmit}
   />
 </div>
@@ -122,13 +143,13 @@ const ListingReservation: React.FC<
           text-lg
         "
       >
-      {price !== 0 && (
+     
         
   <div>
     <hr />
     
   </div>
-)}
+
 
       </div>
     </div>

@@ -92,6 +92,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
           max-w-screen-lg 
           mx-auto
         "
+        
       >
         <div className="flex flex-col gap-6">
           <ListingHead
@@ -118,6 +119,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
               locationValue={listing.locationValue}
               MaxTouristNum={listing.MaxTouristNum}
               countOfPeople={listing.countOfPeople}
+              city={listing.city}
             />
             <div 
               className="

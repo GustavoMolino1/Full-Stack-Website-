@@ -10,7 +10,9 @@ import { SafeReservation, SafeUser } from "@/app/types"
 import Heading from "@/app/components/Heading";
 import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
-import ListingCard3 from "../components/listings/ListingCard3";
+import ListingCard3 from "@/app/components/listings/ListingCard3";
+import ListingCardAdminReservations from "@/app/components/listings/ListingCardAdminReservations";
+
 
 interface ReservationsClientProps {
   reservations: SafeReservation[],
@@ -27,7 +29,7 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
   const onCancel = useCallback((id: string) => {
     setDeletingId(id);
 
-    axios.delete(`/api/reservations/${id}`)
+    axios.delete(`/api/reservationAdmin/${id}`)
     .then(() => {
       toast.success('Reservation cancelled');
       router.refresh();
@@ -43,8 +45,8 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
   return (
     <Container>
       <Heading
-        title="Reservations"
-        subtitle="Bookings on your Trips"
+        title="Welcome Admin"
+        subtitle="Here you can manage bookings of travelers on the site, and cancel them"
       />
       <div 
         className="
@@ -60,7 +62,7 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
         "
       >
         {reservations.map((reservation: any) => (
-          <ListingCard3
+          <ListingCardAdminReservations
             key={reservation.id}
             data={reservation.listing}
             reservation={reservation}

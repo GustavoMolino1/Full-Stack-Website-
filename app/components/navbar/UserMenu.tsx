@@ -13,7 +13,8 @@ import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
 import useOpenTripModal from "@/app/hooks/useOpenTripModal";
 import { useRouter } from "next/navigation";
-;
+
+
 interface UserMenuProps{
 currentUser?: SafeUser | null;
 
@@ -25,6 +26,7 @@ const UserMenu:React.FC<UserMenuProps>=({
 currentUser
 
 }) =>{
+  
   
 const router=useRouter();
   const OpenTrip=useOpenTripModal();
@@ -133,11 +135,32 @@ const router=useRouter();
                   label="Open Your Own trip" 
                   onClick={OpenTrip.onOpen}
                 />
+                 {currentUser.IsAdmin ? ( <MenuItem 
+                  label="Admin - Travel management" 
+                  onClick={() => router.push('/adminPannel')}
+                  />
+                ):(null)
+                }
+                 {currentUser.IsAdmin ? ( <MenuItem 
+                  label="Admin - All Reservation" 
+                  onClick={() => router.push('/adminPannel/adminReservations')}
+                  />
+                ):(null)
+                }
+                {currentUser.IsAdmin ? ( <MenuItem 
+                  label="Admin - All Users" 
+                  onClick={() => router.push('/adminPannel/UserForAdmin')}
+                  />
+                ):(null)
+                }
+                
+            
                 <hr />
                 <MenuItem 
                   label="Logout" 
                   onClick={() => {signOut()}}
                 />
+               
             
               </>
             ) : (

@@ -28,11 +28,13 @@ export default async function getListings(
     if (category) {
       query.category = category;
     }
-   // Handle price properly
   
     
     if (city) {
-      query.city = city;
+      query.city = {
+        startsWith: city, // Match city name containing the provided partial city name
+        mode: 'insensitive', // Case-insensitive match
+      };
     }
     
     if (dateOfTrip) {
@@ -44,7 +46,7 @@ export default async function getListings(
     const listings = await prisma.listing.findMany({
       where: query,
       orderBy: {
-        createdAt: 'desc'
+        createdAt: 'desc'// When you order by createdAt: 'desc', it means that the results will be sorted in descending order based on the createdAt field. This typically means that the most recent or latest entries will appear first in the result set.
       }
     });
 

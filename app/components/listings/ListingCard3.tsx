@@ -135,9 +135,9 @@ interface ListingCardProps {
           <div className="flex flex-row items-center gap-1">
  
   <div className="font-semibold">
-   Travel Name:  {currentUser?.name}
-   <br></br>
-   Travel Email: {currentUser?.email}
+  <p> {'Travel Name:'}</p>  {currentUser?.name}
+   <div><br /></div>
+   <p> {'Travel Email:'}</p> {currentUser?.email}
     <hr/>
    
   </div>
@@ -147,7 +147,7 @@ interface ListingCardProps {
 {onAction && (
   <div style={{ marginTop: "10px" }}>
     {((isTripDatePast) || (isTripHourPast && isTodayDate)) ? (
-      <p>Trip is over, You can't remove Traveler Anymore</p>
+      <p>{'Trip is over, You cant remove Traveler Anymore'}</p>
     ) : null}
     
     {((isTripDatePast) || (isTripHourPast && isTodayDate)) ? (

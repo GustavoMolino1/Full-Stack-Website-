@@ -33,15 +33,33 @@ const SearchModal = () => {
     if (params) {
       currentQuery = qs.parse(params.toString())
     }
-    const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+    const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
     if (dateOfTrip && !dateRegex.test(dateOfTrip)) {
       alert('Please enter the date in the format DD/MM/YYYY.');
       return;
     }
-    if (dateOfTrip && new Date(dateOfTrip) < new Date()) {
-        // If dateOfTrip is in the past, show an alert or handle it accordingly
-        alert('Please select a future date for your trip.');
-        return;
+    
+      const [day, month, year] = dateOfTrip.split('/');
+      const formattedDate = `${year}-${month}-${day}`;
+      const dateObject = new Date(formattedDate);
+      
+      function formatDateConvert(date: Date): string {
+          const day = date.getDate().toString().padStart(2, '0');
+          const month = (date.getMonth() + 1).toString().padStart(2, '0');
+          const year = date.getFullYear();
+        
+          return `${day}/${month}/${year}`;
+      }
+      
+      const currentDate = new Date();
+      const todayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()); // Get today's date without time
+      
+      console.log(formatDateConvert(todayDate));
+      
+      if (dateObject < todayDate) {
+          // If dateOfTrip is in the past, show an alert or handle it accordingly
+          alert('Please select a future date for your trip.');
+          return;
       }
     const updatedQuery: any = {
       ...currentQuery,

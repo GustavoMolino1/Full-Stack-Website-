@@ -104,16 +104,20 @@ const LoginModal = () => {
         label="Continue with Google"
         icon={FcGoogle}
         onClick={() => signIn('google')}
+        disabled
       />
       <Button 
         outline 
         label="Continue with Github"
         icon={AiFillGithub}
-        onClick={() => signIn('github')}
+        disabled
+        onClick={() => signIn('github')
+        
+        }
       />
       <div className="
       text-neutral-500 text-center mt-4 font-light">
-        <p>First time using 'Travel With Me'?
+        <p>{"First time using 'Travel With Me'"}?
           <span 
             onClick={onToggle} 
             className="

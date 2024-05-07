@@ -139,6 +139,9 @@ interface ListingCardProps {
   <div className="font-semibold">
     {price === 0 ? "Free Trip" : `Total ₪ ${price}`}
     <hr/>
+    <a href={data.whatsAppLink} target="_blank" rel="noopener noreferrer">
+    Click  to Enter the WhatsApp group of the trip
+        </a>
     
   </div>
  
@@ -147,7 +150,7 @@ interface ListingCardProps {
 {onAction && (
   <div style={{ marginTop: "10px" }}>
     {((isTripDatePast) || (isTripHourPast&& isTodayDate)) ? (
-      <p>Trip is over, You can still delete it from your history</p>
+      <p>Trip is over, You can delete it from your history</p>
     ) : (
       <div/>
     )}
